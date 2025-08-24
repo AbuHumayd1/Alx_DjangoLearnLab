@@ -14,3 +14,9 @@ def get_books_in_library(library_name):
 def get_librarian_for_library(library_name):
     library = Library.objects.get(name=library_name)
     return library.librarian  # thanks to OneToOneField
+
+from .models import Author, Book
+
+# Example: get all books by a specific author
+def get_books_by_author(author):
+    return Book.objects.filter(author=author)
