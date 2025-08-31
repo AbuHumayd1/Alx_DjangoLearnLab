@@ -36,3 +36,30 @@ def book_delete(request, pk):
         book.delete()
         return redirect("book_list")
     return render(request, "bookshelf/book_confirm_delete.html", {"book": book})
+
+
+from django.shortcuts import render, get_object_or_404, redirect
+from django.views.decorators.csrf import csrf_protect
+from .models import Book
+from .forms import BookForm
+
+@csrf_protect
+def book_list(request):
+    query = request.GET.get("q")
+    if query:
+        # ✅ Safe: ORM prevents SQL injection
+        books = Book.objects.filter(title__icontains=query)
+    else:
+        books = Book.objects.all()
+    return render(request, "bookshelf/book_list.html", {"books": books})
+
+@csrf_protect
+def book_create(request):
+    if request.method == "POST":
+        form = BookForm(request.POST)
+        if form.is_valid():  # ✅ Validate and sanitize input
+            form.save()
+            return redirect("book_list")
+    else:
+        form = BookForm()
+    return render(request, "bookshelf/form_example.html", {"form": form})

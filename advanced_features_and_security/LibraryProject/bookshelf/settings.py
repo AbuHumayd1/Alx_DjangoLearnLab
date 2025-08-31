@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bookshelf', # Custom app for the library project
     'relationship_app', # Custom app for managing relationships
+    "csp",
 ]
 
 MIDDLEWARE = [
@@ -49,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "csp.middleware.CSPMiddleware",
 ]
 
 ROOT_URLCONF = 'LibraryProject.urls'
@@ -128,3 +130,30 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # settings.py
 AUTH_USER_MODEL = 'bookshelf.CustomUser'
 
+# SECURITY SETTINGS
+
+# Debug must be False in production
+DEBUG = False  
+
+# Prevent browsers from guessing content types
+SECURE_CONTENT_TYPE_NOSNIFF = True  
+
+# Enable browser XSS filtering
+SECURE_BROWSER_XSS_FILTER = True  
+
+# Prevent clickjacking by allowing only same-origin iframes
+X_FRAME_OPTIONS = 'DENY'  
+
+# Ensure cookies are sent only via HTTPS
+CSRF_COOKIE_SECURE = True  
+SESSION_COOKIE_SECURE = True  
+
+# Recommended: Enable HSTS (force HTTPS in browsers)
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+# Basic CSP policy (adjust as needed)
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_STYLE_SRC = ("'self'", "https://fonts.googleapis.com")
+CSP_SCRIPT_SRC = ("'self'",)
