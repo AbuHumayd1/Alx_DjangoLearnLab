@@ -125,4 +125,6 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Add this line at the bottom of settings.py
-AUTH_USER_MODEL = 'relationship_app.CustomUser'
+# settings.py
+AUTH_USER_MODEL = 'bookshelf.CustomUser'
+
